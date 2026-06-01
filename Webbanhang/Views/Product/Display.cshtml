@@ -1,0 +1,60 @@
+@model Webbanhang.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+    var images = new List<string>();
+    if (!string.IsNullOrEmpty(Model.ImageUrl)) images.Add(Model.ImageUrl);
+    if (Model.ImageUrls != null) images.AddRange(Model.ImageUrls.Where(x => !string.IsNullOrEmpty(x) && x != Model.ImageUrl));
+    var mainImage = images.FirstOrDefault() ?? "/images/no-image.svg";
+}
+
+<div class="row g-4 align-items-start">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 p-3">
+            <img id="mainProductImage" src="@mainImage" class="detail-main-image rounded-4" alt="@Model.Name" />
+
+            @if (images.Any())
+            {
+                <div class="d-flex gap-2 mt-3 flex-wrap">
+                    @foreach (var image in images)
+                    {
+                        <img src="@image" class="detail-thumb rounded-3" alt="@Model.Name" onclick="changeMainImage('@image')" />
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <span class="badge bg-primary-subtle text-primary align-self-start mb-3">@(ViewBag.CategoryName ?? "Sản phẩm")</span>
+            <h2 class="fw-bold">@Model.Name</h2>
+            <div class="price-text fs-3 my-3">@Model.Price.ToString("N0") đ</div>
+            <p class="text-muted">@Model.Description</p>
+
+            <div class="d-flex gap-2 flex-wrap mt-3">
+                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-primary btn-lg rounded-pill px-4">Thêm vào giỏ</a>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill px-4">Quay lại</a>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.VideoUrl))
+        {
+            <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
+                <h4 class="fw-bold mb-3">Video giới thiệu sản phẩm</h4>
+                <video class="w-100 rounded-4" controls poster="@mainImage">
+                    <source src="@Model.VideoUrl" type="video/mp4" />
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function changeMainImage(src) {
+            document.getElementById('mainProductImage').src = src;
+        }
+    </script>
+}

@@ -1,0 +1,84 @@
+@model IEnumerable<Webbanhang.Models.Product>
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+    Layout = "_AdminLayout";
+}
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0 text-slate-800">Danh sách sản phẩm</h5>
+        <a asp-area="Admin" asp-controller="Product" asp-action="Add" class="btn btn-primary rounded-pill px-4" style="background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); border: none;">+ Thêm sản phẩm</a>
+    </div>
+    <div class="card-body">
+        <!-- Filter Form -->
+        <form asp-action="Index" method="get" class="row g-3 align-items-end mb-4">
+            <div class="col-md-5">
+                <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control rounded-pill" placeholder="Tìm tên sản phẩm..." />
+            </div>
+            <div class="col-md-3">
+                <select name="categoryId" asp-items="ViewBag.Categories" class="form-select rounded-pill">
+                    <option value="">Tất cả danh mục</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="sortOrder" class="form-select rounded-pill">
+                    <option value="" selected="@(ViewBag.SortOrder == null || ViewBag.SortOrder == "")">Mặc định</option>
+                    <option value="price_asc" selected="@(ViewBag.SortOrder == "price_asc")">Giá thấp đến cao</option>
+                    <option value="price_desc" selected="@(ViewBag.SortOrder == "price_desc")">Giá cao đến thấp</option>
+                    <option value="name_asc" selected="@(ViewBag.SortOrder == "name_asc")">Tên A-Z</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-outline-primary rounded-pill">Lọc</button>
+            </div>
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-warning rounded-4">Không tìm thấy sản phẩm nào.</div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" style="width: 80px;">Hình ảnh</th>
+                            <th scope="col">Tên sản phẩm</th>
+                            <th scope="col">Giá bán</th>
+                            <th scope="col">Mô tả</th>
+                            <th scope="col" class="text-end" style="width: 220px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@(product.ImageUrl ?? "/images/no-image.svg")" class="img-thumbnail rounded-3" style="width: 60px; height: 60px; object-fit: cover;" alt="@product.Name" />
+                                </td>
+                                <td>
+                                    <div class="fw-bold">@product.Name</div>
+                                    <span class="badge bg-secondary-subtle text-secondary small">ID: @product.Id</span>
+                                </td>
+                                <td class="fw-semibold text-primary">
+                                    @product.Price.ToString("N0") đ
+                                </td>
+                                <td>
+                                    <div class="text-truncate small" style="max-width: 250px;">@product.Description</div>
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Display" asp-route-id="@product.Id" class="btn btn-outline-info rounded-start-pill px-3">Chi tiết</a>
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@product.Id" class="btn btn-outline-warning px-3">Sửa</a>
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-outline-danger rounded-end-pill px-3">Xóa</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

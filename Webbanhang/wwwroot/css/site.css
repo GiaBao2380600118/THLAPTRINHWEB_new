@@ -1,0 +1,154 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #0d6efd, #6610f2);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #0d6efd, #6610f2);
+    box-shadow: 0 20px 45px rgba(13, 110, 253, 0.22);
+}
+
+.product-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.15) !important;
+}
+
+.product-image-wrap {
+    background: #eef2ff;
+    height: 230px;
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.price-text {
+    color: #dc3545;
+    font-weight: 800;
+}
+
+.filter-card .form-control,
+.filter-card .form-select,
+.card .form-control,
+.card .form-select {
+    border-radius: 12px;
+    padding: 0.7rem 0.9rem;
+}
+
+.detail-main-image {
+    width: 100%;
+    height: 430px;
+    object-fit: contain;
+    background: #eef2ff;
+}
+
+.detail-thumb {
+    width: 86px;
+    height: 86px;
+    object-fit: contain;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s ease;
+}
+
+.detail-thumb:hover {
+    border-color: #0d6efd;
+    transform: scale(1.04);
+}
+
+.cart-img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    background: #eef2ff;
+}
+
+.checkout-card {
+    max-width: 420px;
+}
+
+.footer-section {
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        text-align: center;
+    }
+
+    .detail-main-image {
+        height: 320px;
+    }
+
+    .product-image-wrap {
+        height: 210px;
+    }
+}
+.product-card img,
+.card-img-top,
+.product-image {
+    width: 100%;
+    height: 240px;
+    object-fit: contain;
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+.product-main-image,
+.main-product-image,
+.gallery-main-image {
+    width: 100%;
+    max-height: 520px;
+    object-fit: contain;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.thumbnail-image,
+.gallery-thumb {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background-color: #f8f9fa;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+}

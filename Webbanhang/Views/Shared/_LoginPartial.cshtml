@@ -1,0 +1,37 @@
+@using Microsoft.AspNetCore.Identity
+@using Webbanhang.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav align-items-center me-3">
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+    var fullName = user?.FullName ?? User.Identity?.Name;
+    
+    @if (User.IsInRole(SD.Role_Admin))
+    {
+        <li class="nav-item me-2">
+            <a class="nav-link text-warning fw-bold" asp-area="Admin" asp-controller="Product" asp-action="Index">Quản trị</a>
+        </li>
+    }
+    
+    <li class="nav-item me-2">
+        <span class="nav-link text-white-50">Xin chào, <strong class="text-white">@fullName</strong>!</span>
+    </li>
+    <li class="nav-item">
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Product", new { area = "" })">
+            <button type="submit" class="btn btn-outline-light btn-sm rounded-pill px-3">Đăng xuất</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item me-2">
+        <a class="btn btn-outline-light btn-sm rounded-pill px-3" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-light btn-sm rounded-pill px-3 text-primary fw-bold" asp-area="Identity" asp-page="/Account/Register">Đăng ký</a>
+    </li>
+}
+</ul>

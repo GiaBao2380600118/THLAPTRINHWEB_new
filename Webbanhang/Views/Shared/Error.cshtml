@@ -1,0 +1,14 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Lỗi";
+}
+
+<h1 class="text-danger fw-bold">Đã xảy ra lỗi</h1>
+<h2 class="text-danger">Hệ thống gặp sự cố khi xử lý yêu cầu của bạn.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p><strong>Mã yêu cầu:</strong> <code>@Model.RequestId</code></p>
+}
+
+<p>Vui lòng quay lại trang trước hoặc chạy lại ứng dụng trong Visual Studio để kiểm tra lỗi.</p>

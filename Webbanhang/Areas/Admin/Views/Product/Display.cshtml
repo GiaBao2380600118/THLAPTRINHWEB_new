@@ -1,0 +1,65 @@
+@model Webbanhang.Models.Product
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+    Layout = "_AdminLayout";
+    var images = new List<string>();
+    if (!string.IsNullOrEmpty(Model.ImageUrl)) images.Add(Model.ImageUrl);
+    if (Model.ImageUrls != null) images.AddRange(Model.ImageUrls.Where(x => !string.IsNullOrEmpty(x) && x != Model.ImageUrl));
+    var mainImage = images.FirstOrDefault() ?? "/images/no-image.svg";
+}
+
+<div class="row g-4 align-items-start">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 p-3">
+            <div class="text-center">
+                <img id="mainProductImage" src="@mainImage" class="img-fluid rounded-4 shadow-sm" style="max-height: 400px; object-fit: cover;" alt="@Model.Name" />
+            </div>
+
+            @if (images.Any())
+            {
+                <div class="d-flex gap-2 mt-3 flex-wrap justify-content-center">
+                    @foreach (var image in images)
+                    {
+                        <img src="@image" class="rounded-3 border img-thumbnail" style="width: 70px; height: 70px; object-fit: cover; cursor: pointer;" alt="@Model.Name" onclick="changeMainImage('@image')" />
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <span class="badge bg-primary-subtle text-primary align-self-start mb-3">@(ViewBag.CategoryName ?? "Sản phẩm")</span>
+            <h2 class="fw-bold">@Model.Name</h2>
+            <div class="fs-3 text-primary fw-bold my-3">@Model.Price.ToString("N0") đ</div>
+            <hr class="my-3" />
+            <h5 class="fw-bold">Mô tả sản phẩm</h5>
+            <p class="text-muted">@Model.Description</p>
+
+            <div class="d-flex gap-2 flex-wrap mt-4 border-top pt-3">
+                <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning rounded-pill px-4">Sửa thông tin</a>
+                <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Quay lại</a>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.VideoUrl))
+        {
+            <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
+                <h4 class="fw-bold mb-3">Video giới thiệu sản phẩm</h4>
+                <video class="w-100 rounded-4 shadow-sm" controls poster="@mainImage">
+                    <source src="@Model.VideoUrl" type="video/mp4" />
+                    Trình duyệt của bạn không hỗ trợ video.
+                </video>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function changeMainImage(src) {
+            document.getElementById('mainProductImage').src = src;
+        }
+    </script>
+}

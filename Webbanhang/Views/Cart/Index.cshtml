@@ -1,0 +1,73 @@
+@model List<Webbanhang.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    var total = Model.Sum(x => x.Total);
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <h2 class="fw-bold mb-0">Giỏ hàng của bạn</h2>
+    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary rounded-pill">Tiếp tục mua hàng</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+        <h4>Giỏ hàng đang trống</h4>
+        <p class="text-muted">Hãy chọn sản phẩm bạn muốn mua.</p>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-primary rounded-pill px-4 mx-auto">Xem sản phẩm</a>
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th class="text-center">Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="@(item.ImageUrl ?? "/images/no-image.svg")" class="cart-img rounded-3" alt="@item.ProductName" />
+                                    <strong>@item.ProductName</strong>
+                                </div>
+                            </td>
+                            <td>@item.Price.ToString("N0") đ</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Decrease" asp-route-id="@item.ProductId" class="btn btn-outline-secondary btn-sm">-</a>
+                                    <span class="btn btn-light btn-sm disabled">@item.Quantity</span>
+                                    <a asp-action="Increase" asp-route-id="@item.ProductId" class="btn btn-outline-secondary btn-sm">+</a>
+                                </div>
+                            </td>
+                            <td class="fw-bold">@item.Total.ToString("N0") đ</td>
+                            <td class="text-end">
+                                <a asp-action="Remove" asp-route-id="@item.ProductId" class="btn btn-outline-danger btn-sm rounded-pill">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 mt-4 ms-auto checkout-card">
+        <div class="d-flex justify-content-between fs-5 mb-3">
+            <span>Tổng tiền:</span>
+            <strong class="price-text">@total.ToString("N0") đ</strong>
+        </div>
+        <form asp-action="Checkout" method="post">
+            <button type="submit" class="btn btn-success btn-lg rounded-pill w-100">Thanh toán</button>
+        </form>
+    </div>
+}

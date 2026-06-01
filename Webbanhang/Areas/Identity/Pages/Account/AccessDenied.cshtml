@@ -1,0 +1,13 @@
+@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Từ chối truy cập";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 text-center">
+        <h1 class="text-danger fw-bold mb-3">403 - @ViewData["Title"]</h1>
+        <p class="lead text-muted">Bạn không có quyền truy cập vào tài nguyên này.</p>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-danger rounded-pill px-4 mt-3">Quay lại Trang chủ</a>
+    </div>
+</div>

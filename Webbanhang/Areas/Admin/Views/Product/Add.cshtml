@@ -1,0 +1,84 @@
+@model Webbanhang.Models.Product
+
+@{
+    ViewData["Title"] = "Thêm sản phẩm";
+    Layout = "_AdminLayout";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <h4 class="fw-bold text-slate-800 mb-4">Thêm sản phẩm mới</h4>
+
+            <form asp-area="Admin" asp-controller="Product" asp-action="Add" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-semibold">Tên sản phẩm</label>
+                            <input asp-for="Name" class="form-control rounded-3" placeholder="Nhập tên sản phẩm..." required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label asp-for="Price" class="form-label fw-semibold">Giá bán (đ)</label>
+                            <input asp-for="Price" class="form-control rounded-3" type="number" step="0.01" placeholder="Nhập giá..." required />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="CategoryId" class="form-label fw-semibold">Danh mục</label>
+                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select rounded-3"></select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-semibold">Mô tả sản phẩm</label>
+                    <textarea asp-for="Description" class="form-control rounded-3" rows="4" placeholder="Nhập mô tả sản phẩm..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <hr class="my-4 text-slate-200" />
+                <h5 class="fw-bold mb-3 text-slate-700">Tệp đa phương tiện</h5>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Ảnh đại diện</label>
+                            <input type="file" name="imageUrl" class="form-control rounded-3" accept="image/*" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nhiều ảnh góc khác nhau</label>
+                            <input type="file" name="imageUrls" class="form-control rounded-3" accept="image/*" multiple />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Video ngắn demo</label>
+                            <input type="file" name="videoFile" class="form-control rounded-3" accept="video/*" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4" style="background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); border: none;">Thêm sản phẩm</button>
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Hủy bỏ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,25 @@
+@model Webbanhang.Models.Product
+
+@{
+    ViewData["Title"] = "Xóa sản phẩm";
+}
+
+<div class="card border-0 shadow-sm rounded-4 p-4">
+    <h2 class="fw-bold text-danger">Bạn có chắc muốn xóa sản phẩm này?</h2>
+    <div class="row g-3 mt-2 align-items-center">
+        <div class="col-md-3">
+            <img src="@(Model.ImageUrl ?? "/images/no-image.svg")" class="img-fluid rounded-4" alt="@Model.Name" />
+        </div>
+        <div class="col-md-9">
+            <h4>@Model.Name</h4>
+            <p class="price-text">@Model.Price.ToString("N0") đ</p>
+            <p class="text-muted">@Model.Description</p>
+        </div>
+    </div>
+
+    <form asp-action="DeleteConfirmed" method="post" class="mt-4">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger rounded-pill px-4">Xóa</button>
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">Hủy</a>
+    </form>
+</div>
